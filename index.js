@@ -52,10 +52,7 @@ app.post('/create-subpage', async (req, res) => {
         console.log(`subpage-${timestamp}.html created`);
         res.json(`Subpage subpage-${timestamp}.html and vcard output-${timestamp}.vcf created successfully`);
         
-        // add the express route for the subpage
-        app.get(/subpage-${timestamp}, (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'views', subpage-${timestamp}.html));
-        });
+        
 
         const fileHistory = [];
 
@@ -98,6 +95,11 @@ app.post('/create-subpage', async (req, res) => {
 
         // write the console log to the HTML file
         writeToHTML(`www.subpage-${timestamp}.html created`);
+        
+        // add the express route for the subpage
+        app.get(`/subpage-${timestamp}`, (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'views',`subpage-${timestamp}.html`));
+        });
         
 
       }} catch (err) {

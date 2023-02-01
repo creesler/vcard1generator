@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File History</title>
+</head>
+<body>
+  <h1>File History</h1>
+  <table>
+    <tr>
+      <th>File Name</th>
+      <th>Date Created</th>
+    </tr>
+    <tr id="historyContainer"></tr>
+  </table>
+
+  <script>
+    const historyContainer = document.querySelector("#historyContainer");
+
+    // get the file history from local storage or an API
+    const fileHistory = JSON.parse(localStorage.getItem("fileHistory")) || [];
+
+    // loop through the file history and add each entry as a table row
+    fileHistory.forEach(entry => {
+      const fileName = entry.fileName;
+      const dateCreated = entry.dateCreated;
+
+      historyContainer.innerHTML += `
+        <tr>
+          <td>${fileName}</td>
+          <td>${dateCreated}</td>
+        </tr>
+      `;
+    });
+
+    // add a new entry to the file history when a new file is created
+    function addToFileHistory(fileName) {
+      const dateCreated = new Date().toLocaleString();
+
+      const newEntry = { fileName, dateCreated };
+      fileHistory.push(newEntry);
+
+      localStorage.setItem("fileHistory", JSON.stringify(fileHistory));
+    }
+  </script>
+</body>
+</html>

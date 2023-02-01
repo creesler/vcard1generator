@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>File History</title>
+  </head>
+  <body>
+    <h1>File History</h1>
+    <ul id="fileList">
+    </ul>
+    <script>
+      fetch('/businesscard')
+        .then(response => response.json())
+        .then(data => {
+          const fileList = document.getElementById('fileList');
+          data.forEach(fileName => {
+            const listItem = document.createElement('li');
+            listItem.textContent = fileName;
+            fileList.appendChild(listItem);
+          });
+        });
+    </script>
+  </body>
+</html>

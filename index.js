@@ -96,10 +96,10 @@ app.post('/create-subpage', async (req, res) => {
         // write the console log to the HTML file
         writeToHTML(`www.subpage-${timestamp}.html created`);
         
-        // add the express route for the subpage
-        app.get(`/subpage-${timestamp}`, (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'views',`subpage-${timestamp}.html`));
-        });
+//         // add the express route for the subpage
+//         app.get(`/subpage-${timestamp}`, (req, res) => {
+//         res.sendFile(path.resolve(__dirname, 'views',`subpage-${timestamp}.html`));
+//         });
         
 
       }} catch (err) {

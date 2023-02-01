@@ -28,6 +28,22 @@ app.get('/logs', (req, res) => {
 
 
 
+
+app.get('/businesscard/:fileName', async (req, res) => {
+  try {
+    const fileName = req.params.fileName;
+    const filePath = path.resolve(__dirname, 'businesscard', fileName);
+    const fileContent = await fs.promises.readFile(filePath, 'utf8');
+    res.send(fileContent);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while trying to retrieve the file');
+  }
+});
+
+
+
+
 app.post('/create-subpage', async (req, res) => {
     try {
       const { name, phone, address, email, facebook, whatsapp, twitter, instagram, linkedin, image } = req.body;
@@ -49,9 +65,8 @@ app.post('/create-subpage', async (req, res) => {
 
         // write the rendered HTML to a file
         await fs.promises.writeFile(`subpage-${timestamp}.html`, subpageContent);
-        console.log(`subpage-${timestamp}.html created`);
+        console.log(`subpage-${timestamp}.html created for ${name}`);
         res.json(`Subpage subpage-${timestamp}.html and vcard output-${timestamp}.vcf created successfully`);
-        
         
 
         const fileHistory = [];
@@ -85,7 +100,7 @@ app.post('/create-subpage', async (req, res) => {
           }
 
           // append the new log to the file content
-          logFileContent += `<li><a href="subpage-${timestamp}.html">subpage-${timestamp}.html</a> created</li>`;
+          logFileContent += `<li><a href="/businesscard/subpage-${timestamp}.html">subpage-${timestamp}.html</a> created for ${name} </li>`;
 
           // write the updated content to the log file
           await fs.promises.writeFile(logFilePath, logFileContent);
@@ -94,12 +109,14 @@ app.post('/create-subpage', async (req, res) => {
         // ... rest of the code
 
         // write the console log to the HTML file
-        writeToHTML(`www.subpage-${timestamp}.html created`);
+        writeToHTML(`www.subpage-${timestamp}.html created for ${name}`);
+
         
-//         // add the express route for the subpage
-//         app.get(`/subpage-${timestamp}`, (req, res) => {
-//         res.sendFile(path.resolve(__dirname, 'views',`subpage-${timestamp}.html`));
-//         });
+        app.get(`/businesscard/subpage-${timestamp}.html`, (req, res) => {
+          res.sendFile(path.join(__dirname, 'businesscard', `subpage-${timestamp}.html`));
+        });
+
+        
         
 
       }} catch (err) {
@@ -111,6 +128,7 @@ app.post('/create-subpage', async (req, res) => {
         
 
         
+        
 
         
         app.get('/subpage-latest.html', (req, res) => {
@@ -121,6 +139,9 @@ app.post('/create-subpage', async (req, res) => {
         // send the content of the file as the response
         res.send(fileContent);
         });
+
+      
+
         
         function getLatestHtmlFile() {
         // get the names of all the files in the directory where the index.js file is located

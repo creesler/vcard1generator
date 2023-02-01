@@ -52,6 +52,10 @@ app.post('/create-subpage', async (req, res) => {
         console.log(`subpage-${timestamp}.html created`);
         res.json(`Subpage subpage-${timestamp}.html and vcard output-${timestamp}.vcf created successfully`);
         
+        // add the express route for the subpage
+        app.get(/subpage-${timestamp}, (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'views', subpage-${timestamp}.html));
+        });
 
         const fileHistory = [];
 
